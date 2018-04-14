@@ -8,6 +8,6 @@ const {Todo} = require('./../server/modles/todo');
 //   console.log(res);
 // })
 
-Todo.findByIdAndRemove('5ad264bbe36c4b8d63ef3619').then((todo) => {
-  console.log(todo);
-})
+// Todo.findByIdAndRemove('5ad264bbe36c4b8d63ef3619').then((todo) => {
+//   console.log(todo);
+// })
