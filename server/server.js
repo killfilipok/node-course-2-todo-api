@@ -6,6 +6,7 @@ const _ = require('lodash')
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./modles/todo');
 var {User} = require('./modles/user');
+var {authenticate} = require('./midleware/authenticate')
 const {ObjectID} = require('mongodb');
 
 var app = express();
@@ -87,13 +88,17 @@ app.patch('/todos/:id', (req, res) => {
 app.post('/users', (req, res) => {
   var body = _.pick(req.body, ['email', 'password']);
   var user = User(body)
-  
+
   user.save().then(() => {
     return user.generateAuthToken();
   }).then((token) => {
     res.header('x-auth', token).send(user);
   }).catch((e) => res.status(400).send(e))
 })
+
+app.get('/users/me', authenticate, (req, res) => {
+  res.send(req.user);
+});
 
 app.listen(port, () => {
   console.log(`started at port ${port}`);
